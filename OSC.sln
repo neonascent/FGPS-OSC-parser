@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSC", "OSC.vcxproj", "{C542FA2B-D775-4679-B2F6-EF1CC9097261}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Profile|Win32 = Profile|Win32
+		Profile|x64 = Profile|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C542FA2B-D775-4679-B2F6-EF1CC9097261}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C542FA2B-D775-4679-B2F6-EF1CC9097261}.Debug|Win32.Build.0 = Debug|Win32
+		{C542FA2B-D775-4679-B2F6-EF1CC9097261}.Debug|x64.ActiveCfg = Debug|x64
+		{C542FA2B-D775-4679-B2F6-EF1CC9097261}.Debug|x64.Build.0 = Debug|x64
+		{C542FA2B-D775-4679-B2F6-EF1CC9097261}.Profile|Win32.ActiveCfg = Profile|Win32
+		{C542FA2B-D775-4679-B2F6-EF1CC9097261}.Profile|Win32.Build.0 = Profile|Win32
+		{C542FA2B-D775-4679-B2F6-EF1CC9097261}.Profile|x64.ActiveCfg = Profile|x64
+		{C542FA2B-D775-4679-B2F6-EF1CC9097261}.Profile|x64.Build.0 = Profile|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
