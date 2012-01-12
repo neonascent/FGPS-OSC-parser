@@ -19,9 +19,6 @@
       <Filter>Startup Files</Filter>
     </ClCompile>
     <ClCompile Include="StdAfx.cpp" />
-    <ClCompile Include="Nodes\FlowUdpNodeMulticastListener.cpp">
-      <Filter>Nodes</Filter>
-    </ClCompile>
     <ClCompile Include="Nodes\FlowUdpNodeMulticastSender.cpp">
       <Filter>Nodes</Filter>
     </ClCompile>
@@ -29,6 +26,9 @@
       <Filter>Nodes</Filter>
     </ClCompile>
     <ClCompile Include="Nodes\FlowOSCFloatListener.cpp">
+      <Filter>Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Nodes\FlowOSCVec3Listener.cpp">
       <Filter>Nodes</Filter>
     </ClCompile>
   </ItemGroup>

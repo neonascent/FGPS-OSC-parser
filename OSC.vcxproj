@@ -340,7 +340,7 @@ copy "F:\Archive\Experimentation\Tracking\Crysis 2\FGPlugins\Bin32\OSC.dll" "$(M
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Nodes\FlowUdpNodeMulticastListener.cpp" />
+    <ClCompile Include="Nodes\FlowOSCVec3Listener.cpp" />
     <ClCompile Include="Nodes\FlowUdpNodeMulticastSender.cpp" />
     <ClCompile Include="Nodes\FlowUdpNodeSender.cpp" />
     <ClCompile Include="PluginMain.cpp" />
