@@ -11,12 +11,15 @@
 /////////////////////////////////////////////////////////////////
 
 #include "StdAfx.h"
+#include "base64.h"
+#include <iostream>
+#include <sstream>
 #include "process.h"
 #include "oscpkt.hh"
 #include "Nodes/G2FlowBaseNode.h"
 
 ////////////////////////////////////////////////////
-class CFlowOSCVec3_Listener : public CFlowBaseNode
+class CFlowOSCArgument_Listener : public CFlowBaseNode
 {
 	
 	enum EInputPorts
@@ -27,9 +30,11 @@ class CFlowOSCVec3_Listener : public CFlowBaseNode
 
 	enum EOutputs
 	{
-		EOP_Updated = 0,
-		EOP_Vec3,
-		EOP_String,
+		EOP_String1 = 0,
+		EOP_String2,
+		EOP_String3,
+		EOP_String4,
+		EOP_String5,
 	};
 	
 
@@ -48,7 +53,7 @@ class CFlowOSCVec3_Listener : public CFlowBaseNode
 
 public:
 	////////////////////////////////////////////////////
-	CFlowOSCVec3_Listener(SActivationInfo *pActInfo)
+	CFlowOSCArgument_Listener(SActivationInfo *pActInfo)
 	{
 		// constructor
 		//socketWorking = false;
@@ -58,47 +63,92 @@ public:
 
 	////////////////////////////////////////////////////
 	void getArguments(string packetData, int packetSize) {
-		// '/1/fader1   ,f  ?Q'
-		/*char string[] = {'\57', '\61', '\57', '\146', '\141', '\144', '\145',
-						 '\162', '\61', '\000', '\000', '\000', '\054', '\146', '\000', '\000', '\77', '\121', '\000', '\000'};*/
-		// change \1 back to \0
 		
 
+				 /*const std::string s = "ADP GmbH\nAnalyse Design & Programmierung\nGesellschaft mit beschränkter Haftung" ;
 
+			  std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(s.c_str()), s.length());
+			  std::string decoded = base64_decode(encoded);
+
+			  std::cout << "encoded: " << encoded << std::endl;
+			  std::cout << "decoded: " << decoded << std::endl;
+			  */
+		std::string encoded = packetData.c_str();
+		std::string decoded = base64_decode(encoded);// does this handle null????
+
+		// copy the null characters over, otherwise it ends the string
 		char message[256];
-		for (int i = 0; i < packetSize; i++) {
-			if (packetData[i] < 2) {
-				message[i] = '\0';
-			} else {
-				message[i] = packetData[i];
-			}
+		for (int i = 0; i < decoded.length(); i++) {
+			message[i] = decoded[i];
 		}
 
+		string value = decoded.c_str();
 
-		std::string r = message;
-				string value = r.c_str();
+
+
+
+
+		// setup arg locations
+		std::string listargs[5]= {"","","","",""};
+		int count = 0;
+
+
 
 		//packetData 
-		pr.init(message, packetSize);
+		pr.init(message, decoded.length());
         oscpkt::Message *msg;
         while (pr.isOk() && (msg = pr.popMessage()) != 0) {
+
+
+			oscpkt::Message::ArgReader arg(msg->arg());
+			while (arg.nbArgRemaining()) {
+			  // setup temporary string stream
+			  std::stringstream ss (std::stringstream::in | std::stringstream::out);
+	
+			  if (arg.isBlob()) {
+				//std::vector<char> b; arg.popBlob(b); 
+				//if (b.size()>1) { check(b.front() == 0x44 || fuzz); check(b.back() == 0x66 || fuzz); }
+			  } else if (arg.isBool()) {
+				bool b; arg.popBool(b); ss << b; listargs[count] = ss.str();
+			  } else if (arg.isInt32()) {
+				int i; arg.popInt32(i); ss << i; listargs[count] = ss.str();
+			  } else if (arg.isFloat()) {
+				float f; arg.popFloat(f); ss << f; listargs[count] = ss.str();
+			  } else if (arg.isDouble()) {
+				double d; arg.popDouble(d); ss << d; listargs[count] = ss.str();
+			  } else if (arg.isStr()) {
+				std::string s; arg.popStr(s); listargs[count] = s;
+			  }
+			  count++;
+			}
+
+			
+			ActivateOutput(&m_actInfo, EOP_String1, (string)listargs[0].c_str());
+			ActivateOutput(&m_actInfo, EOP_String2, (string)listargs[1].c_str());
+			ActivateOutput(&m_actInfo, EOP_String3, (string)listargs[2].c_str());
+			ActivateOutput(&m_actInfo, EOP_String4, (string)listargs[3].c_str());
+			ActivateOutput(&m_actInfo, EOP_String5, (string)listargs[4].c_str());
+
+		}
+
+		/*
           float iarg1;  
-		  float iarg2;  
-		  float iarg3;  
+		  float iarg2;   
 		  if (msg->match(Filter).popFloat(iarg1)) {
 			if (msg->match(Filter).popFloat(iarg2)) {
-				if (msg->match(Filter).popFloat(iarg3).isOkNoMoreArgs()) {
-					ActivateOutput(&m_actInfo, EOP_Vec3, Vec3(iarg1, iarg2, iarg3));
-					ActivateOutput(&m_actInfo, EOP_Updated, true);
-				}
-			  } 
+				ActivateOutput(&m_actInfo, EOP_Float1, iarg1);
+				ActivateOutput(&m_actInfo, EOP_Float2, iarg2);
+				ActivateOutput(&m_actInfo, EOP_Updated, true);
+			  //} 
 		  }
-		  ActivateOutput(&m_actInfo, EOP_String, value);
+		  //ActivateOutput(&m_actInfo, EOP_String, value);
+		  return;
 		}
+		return;*/
 	}
 
 	////////////////////////////////////////////////////
-	virtual ~CFlowOSCVec3_Listener(void)
+	virtual ~CFlowOSCArgument_Listener(void)
 	{
 		// destructor
 		
@@ -124,16 +174,18 @@ public:
 		// Define output ports here, in same oreder as EOutputPorts
 		static const SOutputPortConfig outputs[] =
 		{
-			OutputPortConfig_Void("Updated", _HELP("Triggered when updated")), 
-			OutputPortConfig<Vec3>("Vec3", _HELP("Vec3 argument")),
-			OutputPortConfig_Void("String", _HELP("Vec3 argument")),
+			OutputPortConfig_Void("Argument1", _HELP("Argument1")),
+			OutputPortConfig_Void("Argument2", _HELP("Argument2")),
+			OutputPortConfig_Void("Argument3", _HELP("Argument3")),
+			OutputPortConfig_Void("Argument4", _HELP("Argument4")),
+			OutputPortConfig_Void("Argument5", _HELP("Argument5")),
 			{0}
 		};
 
 		// Fill in configuration
 		config.pInputPorts = inputs;
 		config.pOutputPorts = outputs;
-		config.sDescription = _HELP("Gets Vec3 value from OSC message (\0s needs to be converted to \1 in input string)");
+		config.sDescription = _HELP("Gets float value from OSC message (\0s needs to be converted to \1 in input string)");
 		//config.SetCategory(EFLN_ADVANCED);
 	}
 
@@ -162,27 +214,17 @@ public:
 					
 					Filter = GetPortString(pActInfo, EIP_Filter);
 
-									
-					/*ActivateOutput(&m_actInfo, EOP_Vec3, (Vec3)message.length());
-					ActivateOutput(&m_actInfo, EOP_Int, message.length());
-
-
-
-
-					ActivateOutput(&m_actInfo, EOP_String, value);
-					 ActivateOutput(&m_actInfo, EOP_Updated, true);*/
 					getArguments(message, message.length());
 				}
 			}
 			break;
-
 		}
 	}
 
 	////////////////////////////////////////////////////
 	virtual IFlowNodePtr Clone(SActivationInfo *pActInfo)
 	{
-		return new CFlowOSCVec3_Listener(pActInfo);
+		return new CFlowOSCArgument_Listener(pActInfo);
 	}
 
 	////////////////////////////////////////////////////
@@ -198,5 +240,5 @@ public:
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 
-REGISTER_FLOW_NODE("OSC:Vec3Listener", CFlowOSCVec3_Listener);
+REGISTER_FLOW_NODE("OSC:ArgumentListener", CFlowOSCArgument_Listener);
 

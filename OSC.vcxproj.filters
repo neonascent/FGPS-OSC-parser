@@ -13,24 +13,15 @@
       <Filter>Startup Files</Filter>
     </ClInclude>
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Nodes\base64.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PluginMain.cpp">
       <Filter>Startup Files</Filter>
     </ClCompile>
     <ClCompile Include="StdAfx.cpp" />
-    <ClCompile Include="Nodes\FlowUdpNodeMulticastSender.cpp">
-      <Filter>Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="Nodes\FlowUdpNodeSender.cpp">
-      <Filter>Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="Nodes\FlowOSCFloatListener.cpp">
-      <Filter>Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="Nodes\FlowOSCVec3Listener.cpp">
-      <Filter>Nodes</Filter>
-    </ClCompile>
+    <ClCompile Include="Nodes\base64.cpp" />
+    <ClCompile Include="Nodes\FlowOSCArgumentListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README" />

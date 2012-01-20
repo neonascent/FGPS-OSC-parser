@@ -337,14 +337,13 @@ copy "F:\Archive\Experimentation\Tracking\Crysis 2\FGPlugins\Bin32\OSC.dll" "$(M
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\PluginCommon.h" />
+    <ClInclude Include="Nodes\base64.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Nodes\FlowOSCVec3Listener.cpp" />
-    <ClCompile Include="Nodes\FlowUdpNodeMulticastSender.cpp" />
-    <ClCompile Include="Nodes\FlowUdpNodeSender.cpp" />
+    <ClCompile Include="Nodes\base64.cpp" />
+    <ClCompile Include="Nodes\FlowOSCArgumentListener.cpp" />
     <ClCompile Include="PluginMain.cpp" />
-    <ClCompile Include="Nodes\FlowOSCFloatListener.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
