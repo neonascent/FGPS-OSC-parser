@@ -97,8 +97,8 @@ public:
 				int count = 0;
 				bool isCorrectJoint = false;
 				bool isCorrectId = false;
-				Filter="1";
-				JointFilter="l_elbow";
+				//Filter="1";
+				//JointFilter="l_elbow";
 				
 
 				oscpkt::Message::ArgReader arg(msg->arg());
@@ -154,9 +154,11 @@ public:
 		{
 			InputPortConfig<string>("Message", _HELP("Pipe OSC data in here")),
 			InputPortConfig<string>("Filter", _HELP("The Skeleton Id eg. 1")),
-			InputPortConfig<string>("JointFilter", _HELP("The OSC joint name looked for eg. l_elbow ")),
+			InputPortConfig<string>("JointFilter", "head", _HELP("The OSC joint name looked for eg. l_elbow "), "Joint name", _UICONFIG("enum_string: head=head, neck=neck, l_shoulder=l_shoulder, l_elbow=l_elbow, l_hand=l_hand, r_shoulder=r_shoulder, r_elbow=r_elbow, r_hand=r_hand, torso=torso, l_hip=l_hip, l_knee=l_knee, l_foot=l_foot, r_hip=r_hip, r_knee=r_knee, r_foot=r_foot")),
 			{0}
 		};
+
+		
 
 		// Define output ports here, in same oreder as EOutputPorts
 		static const SOutputPortConfig outputs[] =
