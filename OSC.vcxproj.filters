@@ -22,6 +22,7 @@
     <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="Nodes\base64.cpp" />
     <ClCompile Include="Nodes\FlowOSCArgumentListener.cpp" />
+    <ClCompile Include="Nodes\FlowOSCKinectListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README" />
